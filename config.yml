@@ -1,0 +1,7 @@
+# Minecraft authentication credentials
+username: 'dummy username'
+password: 'dummy password'
+# Server host or host:port
+server: 'host:port'
+# Attempt to reconnect if disconnected
+reconnect: true
