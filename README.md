@@ -6,6 +6,12 @@ A simple Minecraft client for AFKing.
 
 Tested with Python 3.8 and above
 
+To-dos:
+
+* automatic port discovery if only hostname specified
+* keep-alives
+* better signing out
+
 ## Usage
 
 1. Install dependencies (optionally create a venv)

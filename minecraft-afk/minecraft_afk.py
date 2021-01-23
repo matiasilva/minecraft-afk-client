@@ -3,6 +3,7 @@ import signal
 import sys
 from pathlib import Path
 import yaml
+import re
 
 from minecraft import authentication
 from minecraft.exceptions import YggdrasilError
@@ -25,15 +26,15 @@ def main():
 
     # split port and host
     match = re.match(r"((?P<host>[^\[\]:]+)|\[(?P<addr>[^\[\]]+)\])"
-                     r"(:(?P<port>\d+))?$", config.server)
+                     r"(:(?P<port>\d+))?$", config["server"])
     if match is None:
-        raise ValueError(f"Invalid server address: '{config.server}'")
+        raise ValueError(f"Invalid server address: '{config['server']}'")
     address = match.group("host") or match.group("addr")
     port = int(match.group("port") or 25565)
 
     auth_token = authentication.AuthenticationToken()
     try:
-        auth_token.authenticate(config.username, config.password)
+        auth_token.authenticate(config["username"], config["password"])
     except YggdrasilError as e:
         print(e)
         sys.exit()
@@ -43,16 +44,18 @@ def main():
 
     def handle_goodbye(signum, frame):
         print("Signing out!")
-        payload = {'username': config.username,
-                   'password': config.password}
+        payload = {'username': config["username"],
+                   'password': config["password"]}
         try:
             authentication._make_request(authentication.AUTH_SERVER, "signout", payload)
         except:
             print("Failed to sign out with Yggdrasil")
+        finally:
+            sys.exit()
 
     def handle_disconnect():
         print("Disconnected from server")
-        if config.reconnect == True:
+        if config["reconnect"] == True:
             connection.connect()
         else:
             sys.exit()
@@ -65,7 +68,8 @@ def main():
 
     try:
         connection.connect()
-    except:
+    except Exception as err:
+        print(err)
         print("Failed to connect to specified server")
         sys.exit()
 
