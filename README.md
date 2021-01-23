@@ -9,8 +9,9 @@ Tested with Python 3.8 and above
 ## Usage
 
 1. Install dependencies (optionally create a venv)
-2. Set login information in `config.yml` and change other optional configuration
-3. Run `python3 -m minecraft-afk`
+2. Rename `sample_config.yml` to `config.yml`
+3. Set login information in `config.yml` and change other optional configuration
+4. Run `python3 -m minecraft-afk`
 
 ## Development
 
